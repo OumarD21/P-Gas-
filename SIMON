@@ -1,0 +1,72 @@
+import time
+import board
+import touchio
+import digitalio as dio
+import neopixel
+import random
+num_pixels = 10
+np = neopixel.NeoPixel(board.NEOPIXEL, num_pixels, brightness=0.1, auto_write=False)
+
+#touch_pad = board.A0  # Will not work for Circuit Playground Express!
+color1 = (255,0,0)
+color2 = (0,100,255)
+color3 = (100,255,0)
+color4 = (100,255,255)
+RGB01 = (np[0],np[1])
+RGB34 = (np[3],np[4])
+RGB56 = (np[5],np[6])
+RGB89 = (np[8],np[9])
+touch_pad1 = board.A1  # For Circuit Playground Express
+touch_pad2 = board.A2
+touch_pad5 = board.A5
+touch_pad6 = board.A6
+touch1 = touchio.TouchIn(touch_pad1)
+touch2 = touchio.TouchIn(touch_pad2)
+touch5 = touchio.TouchIn(touch_pad5)
+touch6= touchio.TouchIn(touch_pad6)
+btna = dio.DigitalInOut(board.BUTTON_A)
+btna.direction = dio.Direction.INPUT
+touch_list=[touch_pad1,touch_pad2,touch_pad5,touch_pad6]
+color_list=[color1,color2,color3,color4]
+RGB_list = [RGB01,RGB34,RGB56,RGB89]
+
+def tocuh(color1):
+    if touch6.value:
+        print("touched np 2/3")
+        np[3] = (100,255,150)
+        np[4] = (100,255,150)
+        print("np should be on")
+        np.show()
+
+def tocuh56(color1):
+    if touch5.value:
+        print("touched np 5/6")
+        np[5] = (200,255,50)
+        np[6] = (200,255,50)
+        print("np should be on")
+        np.show()
+
+def tocuh89(color1):
+    if touch2.value:
+        print("touched np 8/9")
+        np[8] = (240,255,0)
+        np[9] = (240,255,0)
+        print("np should be on")
+        np.show()
+        
+def lightup(color1):
+    if btna.value:
+        print("button par")
+        np[0] = (255, 100, 0)
+        np[1] = (255, 100, 0)
+        print("shuld light up")
+        np.show()
+        time.sleep(0.01)
+
+
+for i in range(10000):
+    tocuh(color1)
+    tocuh56(color2)
+    tocuh89(color3)
+    lightup(color4)
+time.sleep(0.01)
